@@ -28,4 +28,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun loginUser() {
+
+    }
 }
