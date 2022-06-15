@@ -3,12 +3,13 @@ package com.vintech.testfinalproject.helpers
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import com.vintech.testfinalproject.SplashScreen
 
 object TokenStorage {
-    fun getAuthToken(context: Context): String? {
+    fun getAuthToken(context: Context): String {
         val pref: SharedPreferences =
             context.getSharedPreferences(AppConfig.SHAREDPREFERENCE_TOKEN_NAME, 0)
-        return pref.getString(AppConfig.TOKEN_NAME, "")
+        return pref.getString(AppConfig.TOKEN_NAME, "") ?: "";
     }
 
     @SuppressLint("CommitPrefEdits")

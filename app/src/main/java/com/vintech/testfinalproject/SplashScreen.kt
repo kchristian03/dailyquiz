@@ -4,16 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.android.material.snackbar.Snackbar
+import com.vintech.testfinalproject.apiRequest.AuthenticationRequest
 import com.vintech.testfinalproject.apiRequest.PingRequest
 import com.vintech.testfinalproject.helpers.RetrofitHelper
 import com.vintech.testfinalproject.helpers.TokenStorage
 import com.vintech.testfinalproject.models.ApiHttpResponse
+import com.vintech.testfinalproject.models.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.create
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
@@ -58,10 +62,45 @@ class SplashScreen : AppCompatActivity() {
 
     // Check if token is already in sharedPreference
     private fun checkToken() {
-        if (TokenStorage.getAuthToken(applicationContext).equals("")) {
+
+        if (TokenStorage.getAuthToken(applicationContext) == "") {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
+
+        checkIfTokenIsExpired()
+
+    }
+
+    private fun checkIfTokenIsExpired() {
+        val tokenCheckApi = RetrofitHelper.authenticatedJsonResponseInstance(
+            TokenStorage.getAuthToken(applicationContext)
+        ).create(AuthenticationRequest::class.java)
+
+        tokenCheckApi.checkUser().enqueue(object : Callback<ApiHttpResponse<User>> {
+            /**
+             * Invoked for a received HTTP response.
+             *
+             *
+             * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
+             * Call [Response.isSuccessful] to determine if the response indicates success.
+             */
+            override fun onResponse(
+                call: Call<ApiHttpResponse<User>>,
+                response: Response<ApiHttpResponse<User>>
+            ) {
+                Log.i("AAAAA", response.body().toString())
+            }
+
+            /**
+             * Invoked when a network exception occurred talking to the server or when an unexpected exception
+             * occurred creating the request or processing the response.
+             */
+            override fun onFailure(call: Call<ApiHttpResponse<User>>, t: Throwable) {
+                Log.i("GAGALLLL", t.toString())
+            }
+
+        })
     }
 }
