@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">QuizDaily</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="text_splash_screen">Quiz\nDaily</string>
+</resources>

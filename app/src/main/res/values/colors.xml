@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="violet_50">#FFF5F3FF</color>
+    <color name="violet_600">#FF7C3AED</color>
+    <color name="violet_700">#FF6D28D9</color>
+    <color name="amber_100">#FFFEF3C7</color>
+    <color name="amber_600">#FFD97706</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
