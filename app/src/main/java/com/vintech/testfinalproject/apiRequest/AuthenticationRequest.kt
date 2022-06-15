@@ -4,10 +4,7 @@ import com.google.gson.JsonObject
 import com.vintech.testfinalproject.models.ApiHttpResponse
 import com.vintech.testfinalproject.models.User
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface AuthenticationRequest {
     @FormUrlEncoded
@@ -19,5 +16,5 @@ interface AuthenticationRequest {
 
 
     @GET("my")
-    fun checkUser(): Call<ApiHttpResponse<User>>
+    fun checkUser(): Call<ApiHttpResponse<User?>>
 }

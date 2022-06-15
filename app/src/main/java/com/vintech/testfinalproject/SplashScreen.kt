@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.JsonObject
 import com.vintech.testfinalproject.apiRequest.AuthenticationRequest
 import com.vintech.testfinalproject.apiRequest.PingRequest
 import com.vintech.testfinalproject.helpers.RetrofitHelper
@@ -74,33 +75,41 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun checkIfTokenIsExpired() {
-        val tokenCheckApi = RetrofitHelper.authenticatedJsonResponseInstance(
-            TokenStorage.getAuthToken(applicationContext)
-        ).create(AuthenticationRequest::class.java)
+        val tokenCheckApi =
+            RetrofitHelper.authenticatedJsonResponseInstance(
+                TokenStorage.getAuthToken(
+                    applicationContext
+                )
+            ).create(AuthenticationRequest::class.java)
 
-        tokenCheckApi.checkUser().enqueue(object : Callback<ApiHttpResponse<User>> {
-            /**
-             * Invoked for a received HTTP response.
-             *
-             *
-             * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
-             * Call [Response.isSuccessful] to determine if the response indicates success.
-             */
-            override fun onResponse(
-                call: Call<ApiHttpResponse<User>>,
-                response: Response<ApiHttpResponse<User>>
-            ) {
-                Log.i("AAAAA", response.body().toString())
-            }
+        tokenCheckApi.checkUser()
+            .enqueue(object : Callback<ApiHttpResponse<User?>> {
+                /**
+                 * Invoked for a received HTTP response.
+                 *
+                 *
+                 * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
+                 * Call [Response.isSuccessful] to determine if the response indicates success.
+                 */
+                override fun onResponse(
+                    call: Call<ApiHttpResponse<User?>>,
+                    response: Response<ApiHttpResponse<User?>>
+                ) {
+                    val intent = Intent(baseContext, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
-            /**
-             * Invoked when a network exception occurred talking to the server or when an unexpected exception
-             * occurred creating the request or processing the response.
-             */
-            override fun onFailure(call: Call<ApiHttpResponse<User>>, t: Throwable) {
-                Log.i("GAGALLLL", t.toString())
-            }
+                /**
+                 * Invoked when a network exception occurred talking to the server or when an unexpected exception
+                 * occurred creating the request or processing the response.
+                 */
+                override fun onFailure(call: Call<ApiHttpResponse<User?>>, t: Throwable) {
+                    val intent = Intent(baseContext, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
 
-        })
+            })
     }
 }

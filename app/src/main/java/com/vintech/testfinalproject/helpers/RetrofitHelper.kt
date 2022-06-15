@@ -1,5 +1,6 @@
 package com.vintech.testfinalproject.helpers
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -27,11 +28,13 @@ object RetrofitHelper {
 
     fun authenticatedJsonResponseInstance(token: String): Retrofit {
 
+
         val okhttp = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val original = chain.request()
+                val fixedtoken = token.replace("\"", "")
                 val requestBuilder = original.newBuilder()
-                    .header("Authorization", "Bearer $token")
+                    .header("Authorization", "Bearer $fixedtoken")
                 val request = requestBuilder.build()
                 chain.proceed(request)
             }.build()
