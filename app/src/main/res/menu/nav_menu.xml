@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/rangking"
+        android:icon="@drawable/ic_baseline_flag_24"
+        android:title="Rangking"  />
+    <item
+        android:id="@+id/play"
+        android:icon="@drawable/ic_baseline_videogame_asset_24"
+        android:title="Play" />
+    <item
+        android:id="@+id/me"
+        android:icon="@drawable/ic_baseline_self_improvement_24"
+        android:title="Me" />
+</menu>
