@@ -8,20 +8,25 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.JsonObject
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.reflect.TypeToken
 import com.vintech.testfinalproject.apiRequest.AuthenticationRequest
 import com.vintech.testfinalproject.apiRequest.PingRequest
+import com.vintech.testfinalproject.apiRequest.QuizRequest
+import com.vintech.testfinalproject.helpers.CurrentStorage
 import com.vintech.testfinalproject.helpers.RetrofitHelper
 import com.vintech.testfinalproject.helpers.TokenStorage
 import com.vintech.testfinalproject.models.ApiHttpResponse
+import com.vintech.testfinalproject.models.Quiz
 import com.vintech.testfinalproject.models.User
+import com.vintech.testfinalproject.overrides.FillsQuiz
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
 
 @SuppressLint("CustomSplashScreen")
-class SplashScreen : AppCompatActivity() {
+class SplashScreen : FillsQuiz() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -95,9 +100,8 @@ class SplashScreen : AppCompatActivity() {
                     call: Call<ApiHttpResponse<User?>>,
                     response: Response<ApiHttpResponse<User?>>
                 ) {
-                    val intent = Intent(baseContext, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    CurrentStorage.user = response.body()!!.data!!
+                    setAvailableQuizzes()
                 }
 
                 /**
@@ -112,4 +116,6 @@ class SplashScreen : AppCompatActivity() {
 
             })
     }
+
+
 }

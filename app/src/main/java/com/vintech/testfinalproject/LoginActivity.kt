@@ -12,11 +12,12 @@ import com.vintech.testfinalproject.databinding.ActivityLoginBinding
 import com.vintech.testfinalproject.helpers.RetrofitHelper
 import com.vintech.testfinalproject.helpers.TokenStorage
 import com.vintech.testfinalproject.models.ApiHttpResponse
+import com.vintech.testfinalproject.overrides.FillsQuiz
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : FillsQuiz() {
 
     private lateinit var binding: ActivityLoginBinding
 
@@ -27,9 +28,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttonLogin.setOnClickListener {
-//            val intent = Intent(this, MainActivity::class.java)
-//            startActivity(intent)
-//            finish()
             loginUser()
         }
 
@@ -49,13 +47,7 @@ class LoginActivity : AppCompatActivity() {
             binding.usernameInputLogin.editText!!.text.toString(),
             binding.passwordInputLogin.editText!!.text.toString()
         ).enqueue(object : Callback<ApiHttpResponse<JsonObject?>> {
-            /**
-             * Invoked for a received HTTP response.
-             *
-             *
-             * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
-             * Call [Response.isSuccessful] to determine if the response indicates success.
-             */
+
             override fun onResponse(
                 call: Call<ApiHttpResponse<JsonObject?>>,
                 response: Response<ApiHttpResponse<JsonObject?>>
@@ -67,13 +59,10 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     val res: String = response.body()!!.data!!.get("token").toString()
                     TokenStorage.setAuthToken(applicationContext, res)
+                    setAvailableQuizzes()
                 }
             }
 
-            /**
-             * Invoked when a network exception occurred talking to the server or when an unexpected exception
-             * occurred creating the request or processing the response.
-             */
             override fun onFailure(call: Call<ApiHttpResponse<JsonObject?>>, t: Throwable) {
                 Snackbar
                     .make(binding.root, "Failed to login!", Snackbar.LENGTH_LONG)
@@ -82,4 +71,6 @@ class LoginActivity : AppCompatActivity() {
 
         })
     }
+
+
 }
