@@ -79,7 +79,7 @@ class SplashScreen : FillsQuiz() {
 
     }
 
-    private fun checkIfTokenIsExpired() {
+    override fun checkIfTokenIsExpired() {
         val tokenCheckApi =
             RetrofitHelper.authenticatedJsonResponseInstance(
                 TokenStorage.getAuthToken(

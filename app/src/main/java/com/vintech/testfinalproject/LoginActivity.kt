@@ -59,7 +59,7 @@ class LoginActivity : FillsQuiz() {
                 } else {
                     val res: String = response.body()!!.data!!.get("token").toString()
                     TokenStorage.setAuthToken(applicationContext, res)
-                    setAvailableQuizzes()
+                    checkIfTokenIsExpired()
                 }
             }
 

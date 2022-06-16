@@ -15,6 +15,14 @@ interface AuthenticationRequest {
     ): Call<ApiHttpResponse<JsonObject?>>
 
 
+    @FormUrlEncoded
+    @POST("auth/register")
+    fun register(
+        @Field("name") name: String,
+        @Field("email") email: String,
+        @Field("password") password: String
+    ): Call<ApiHttpResponse<JsonObject?>>
+
     @GET("my")
     fun checkUser(): Call<ApiHttpResponse<User?>>
 }
